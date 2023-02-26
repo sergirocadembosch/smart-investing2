@@ -61,6 +61,9 @@ app.layout = html.Div([
         html.Br(),
         html.Div(id='montly_payment'),
 
+        html.Br(),
+        html.Div(id='total_payment'),
+
     ], style={'padding': 10, 'flex': 1}),
 
 
@@ -75,6 +78,7 @@ app.layout = html.Div([
 @app.callback(
    # Output(component_id='amount_due', component_property='children'),
     Output(component_id='montly_payment', component_property='children'),
+    Output(component_id='total_payment', component_property='children'),
     Input(component_id='price', component_property='value'),
     Input(component_id='upfront', component_property='value'),
     Input(component_id='maturity', component_property='value'),
@@ -90,8 +94,9 @@ def calculator(price, upfront, maturity, rate):
     P=price*(111/100)-upfront
     rate=rate/100
     montly_payment=(rate/12) * (1/(1-(1+rate/12)**(-months)))*P
-    return f'montly_payment:{montly_payment}'
- 
+    total_payment=months*montly_payment
+    return montly_payment, total_payment
+
 
 
 if __name__ == '__main__':
