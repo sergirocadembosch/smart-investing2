@@ -94,7 +94,7 @@ def calculator(price, upfront, maturity, rate):
     P=price*(111/100)-upfront
     rate=rate/100
     montly_payment=(rate/12) * (1/(1-(1+rate/12)**(-months)))*P
-    total_payment=months*montly_payment
+    total_payment=months*montly_payment+upfront
     return montly_payment, total_payment
 
 
