@@ -1,7 +1,7 @@
 # Run this app with `python app.py` and
 # visit http://127.0.0.1:8050/ in your web browser.
 
-from dash import Dash, html, dcc
+from dash import Dash, html, dcc, Output, Input
 
 app = Dash(__name__)
 
@@ -16,9 +16,9 @@ app.layout = html.Div([
             min=0,
             max=350000,
             step=10000,
-            #marks={i: f'Label {i}' if i == 1 else str(i) for i in range(1, 350)},
             tooltip={"placement": "bottom", "always_visible": True},
             value=240000,
+            id='price',
         ),
     
         html.Br(),
@@ -27,7 +27,6 @@ app.layout = html.Div([
             min=0,
             max=350000,
             step=10000,
-            # marks={i: f'Label {i}' if i == 1 else str(i) for i in range(1, 350)},
             value=80000,
         ),
 
@@ -37,18 +36,8 @@ app.layout = html.Div([
             min=0,
             max=30,
             step=1,
-            # marks={i: f'Label {i}' if i == 1 else str(i) for i in range(1, 350)},
             value=25,
         ),
-
-        # html.Label('Dropdown'),
-        # dcc.Dropdown(['New York City', 'Montréal', 'San Francisco'], 'Montréal'),
-
-        # html.Br(),
-        # html.Label('Multi-Select Dropdown'),
-        # dcc.Dropdown(['New York City', 'Montréal', 'San Francisco'],
-        #              ['Montréal', 'San Francisco'],
-        #              multi=True),
 
         html.Br(),
         html.Label('Type of rate'),
@@ -58,34 +47,28 @@ app.layout = html.Div([
         html.Label('Tipo'),
         dcc.Input(value='MTL', type='number'),
 
+        html.Br(),
+        html.Div(id='my-output'),
+
 
 
     ], style={'padding': 10, 'flex': 1}),
 
-    # html.Div(children=[
-    #     html.Label('Checkboxes'),
-    #     dcc.Checklist(['New York City', 'Montréal', 'San Francisco'],
-    #                   ['Montréal', 'San Francisco']
-    #     ),
 
-    #     html.Br(),
-    #     html.Label('Text Input'),
-    #     dcc.Input(value='MTL', type='text'),
-
-    #     html.Br(),
-    #     html.Label('Slider'),
-    #     dcc.Slider(
-    #         min=0,
-    #         max=9,
-    #         marks={i: f'Label {i}' if i == 1 else str(i) for i in range(1, 6)},
-    #         value=5,
-    #     ),
-    # ], style={'padding': 10, 'flex': 1})
 
 
 
 ], style={'display': 'flex', 'flex-direction': 'column'})
 
+
+
+
+@app.callback(
+    Output(component_id='my-output', component_property='children'),
+    Input(component_id='price', component_property='value')
+)
+def update_output_div(input_value):
+    return f'Amount due: {input_value}'
 
 
 if __name__ == '__main__':
