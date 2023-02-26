@@ -1,1 +1,1 @@
-Archivo añadido desde github
+Archivo añadido desde github. Cambio desde la branch mejora_texto
